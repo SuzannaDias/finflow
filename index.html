@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinFlow — Controle Financeiro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ==== MENU LATERAL (sidebar)==== -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🐷 <h1>FinFlow</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="#" class="menu-item ativo">🏠 Dashboard</a>
+            <a href="#" class="menu-item">📋 Transações</a>
+            <a href="#" class="menu-item">🏷️ Categorias</a>
+            <a href="#" class="menu-item">📊 Relatórios</a>
+            <a href="#" class="menu-item">🎯 Metas</a>
+            <a href="#" class="menu-item">⚙️ Configurações</a>
+        </nav>
+
+        <div class="caixa-promocional">
+            <p class="emoji-grande">🐷</p>
+            <p>Organize suas finanças e conquiste seus objetivos.</p>
+            <button class="botao-laranja">Criar meta</button>
+        </div>
+
+    </aside>
+
+    <!-- === CONTEÚDO PRINCIPAL === -->
+    <div class="conteudo">
+
+        <!-- Cabeçalho -->
+        <header class="topo">
+            <div>
+                <h2>Olá, Suzanna! 👋</h2>
+                <p>Tenha um ótimo dia e boas finanças!</p>
+            </div>
+
+            <div class="topo-icones">
+                <button id="theme-toggle">🌙</button>
+                <span class="avatar">👤</span>
+            </div>
+        </header>
+
+        <!-- Cards de resumo -->
+        <section class="cards">
+
+            <div class="card">
+                <p class="card-titulo">Saldo atual</p>
+                <p class="card-valor" id="saldo">R$ 0,00</p>
+            </div>
+
+            <div class="card">
+                <p class="card-titulo">Receitas</p>
+                <p class="card-valor receita" id="receitas">R$ 0,00</p>
+            </div>
+
+            <div class="card">
+                <p class="card-titulo">Despesas</p>
+                <p class="card-valor despesa" id="despesas">R$ 0,00</p>
+            </div>
+
+        </section>
+
+        <!-- Formulário + resumo lado a lado -->
+        <section class="duas-colunas">
+
+            <!-- Formulário de nova transação -->
+            <div class="caixa">
+                <h3>Nova transação</h3>
+
+                <form id="form-transacao">
+
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" placeholder="Ex.: Salário, Mercado, Combustível...">
+
+                    <label for="valor">Valor</label>
+                    <input type="text" id="valor" placeholder="R$ 0,00">
+
+                    <label for="categoria">Categoria</label>
+                    <select id="categoria">
+                        <option value="">Selecione</option>
+                        <option value="alimentacao">Alimentação</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="lazer">Lazer</option>
+                        <option value="casa">Casa</option>
+                        <option value="trabalho">Trabalho</option>
+                        <option value="outros">Outros</option>
+                    </select>
+
+                    <label>Tipo</label>
+                    <div class="botoes-tipo">
+                        <button type="button" class="tipo-receita ativo" id="btn-receita">↑ Receita</button>
+                        <button type="button" class="tipo-despesa" id="btn-despesa">↓ Despesa</button>
+                    </div>
+
+                    <button type="submit" class="botao-laranja botao-largo">Adicionar transação</button>
+
+                </form>
+            </div>
+
+            <!-- Resumo dos gastos -->
+            <div class="caixa">
+                <h3>Resumo dos gastos</h3>
+
+                <ul class="lista-categorias" id="lista-categorias">
+                    <li><span class="bolinha" style="background:#f97316"></span> Alimentação <b>R$ 0,00</b></li>
+                    <li><span class="bolinha" style="background:#3b82f6"></span> Transporte <b>R$ 0,00</b></li>
+                    <li><span class="bolinha" style="background:#22c55e"></span> Lazer <b>R$ 0,00</b></li>
+                    <li><span class="bolinha" style="background:#a855f7"></span> Casa <b>R$ 0,00</b></li>
+                    <li><span class="bolinha" style="background:#9ca3af"></span> Outros <b>R$ 0,00</b></li>
+                </ul>
+            </div>
+
+        </section>
+
+        <!-- Histórico de transações -->
+        <section class="caixa">
+            <h3>Histórico de transações</h3>
+
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-transacoes">
+                    <tr>
+                        <td colspan="6" class="vazio">Nenhuma transação cadastrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Mascote -->
+        <section class="mascote">
+            <p class="emoji-grande">🐷</p>
+            <p>Seu dinheiro crescendo.</p>
+        </section>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

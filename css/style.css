@@ -1,0 +1,414 @@
+/* Reset básico: tira as margens/padding padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    color: #1e2430;
+    display: flex; /* coloca sidebar e conteúdo lado a lado */
+}
+
+/* Menu lateral (sidebar) */
+.sidebar {
+    width: 240px;
+    background-color: #ffffff;
+    border-right: 1px solid #eceef3;
+    padding: 24px 16px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+    margin-bottom: 32px;
+}
+
+.logo h1 {
+    font-size: 20px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-item {
+    text-decoration: none;
+    color: #6b7280;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.menu-item:hover {
+    background-color: #f5f6fa;
+}
+
+.menu-item.ativo {
+    background-color: #ffe9db;
+    color: #f2650f;
+    font-weight: bold;
+}
+
+.caixa-promocional {
+    margin-top: auto; /* empurra a caixa pro final do menu */
+    background-color: #ffe9db;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+
+.caixa-promocional p {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+.emoji-grande {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+/* Botão laranja, usado em vários lugares */
+.botao-laranja {
+    background-color: #ff7a30;
+    color: #ffffff;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botao-laranja:hover {
+    background-color: #f2650f;
+}
+
+.botao-largo {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Conteúdo principal */
+.conteudo {
+    flex: 1; /* ocupa o resto do espaço, ao lado da sidebar */
+    padding: 32px;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.topo h2 {
+    font-size: 20px;
+}
+
+.topo p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.topo-icones {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topo-icones button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #eceef3;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eceef3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cards de resumo: Saldo, Receitas, Despesas */
+.cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.card {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-titulo {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.card-valor {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-valor.receita {
+    color: #16a34a;
+}
+
+.card-valor.despesa {
+    color: #dc2626;
+}
+
+/* Caixas genéricas: formulário, resumo, histórico */
+.caixa {
+    background-color: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+.caixa h3 {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.duas-colunas {
+    display: flex;
+    gap: 16px;
+}
+
+.duas-colunas .caixa {
+    flex: 1;
+}
+
+/* Formulário de nova transação */
+#form-transacao label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    margin-top: 12px;
+}
+
+#form-transacao input,
+#form-transacao select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #eceef3;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.botoes-tipo {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.botoes-tipo button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eceef3;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.tipo-receita.ativo {
+    background-color: #dcfce7;
+    color: #16a34a;
+    border-color: #dcfce7;
+}
+
+.tipo-despesa.ativo {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #fee2e2;
+}
+
+/* Resumo dos gastos: lista de categorias */
+.lista-categorias {
+    list-style: none;
+}
+
+.lista-categorias li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eceef3;
+    font-size: 14px;
+}
+
+.lista-categorias li:last-child {
+    border-bottom: none;
+}
+
+.lista-categorias b {
+    margin-left: auto; /* joga o valor pra direita */
+}
+
+.bolinha {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Tabela de histórico */
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela th {
+    text-align: left;
+    font-size: 12px;
+    color: #6b7280;
+    padding: 10px 8px;
+    border-bottom: 1px solid #eceef3;
+}
+
+.tabela td {
+    padding: 12px 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #eceef3;
+}
+
+.tabela .vazio {
+    text-align: center;
+    color: #6b7280;
+    padding: 24px;
+}
+
+/* Mascote */
+.mascote {
+    text-align: center;
+    padding: 16px 0;
+    color: #6b7280;
+}
+
+/* Responsivo: em telas pequenas, sidebar e colunas empilham */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .cards {
+        flex-direction: column;
+    }
+
+    .duas-colunas {
+        flex-direction: column;
+    }
+}
+
+/* Modo escuro: o JS adiciona a classe "tema-escuro" no body ao clicar no 🌙 */
+body.tema-escuro {
+    background-color: #14161f;
+    color: #e5e7eb;
+}
+
+body.tema-escuro .sidebar {
+    background-color: #1c1f2b;
+    border-right-color: #2a2e3d;
+}
+
+body.tema-escuro .menu-item {
+    color: #9ca3af;
+}
+
+body.tema-escuro .menu-item:hover {
+    background-color: #2a2e3d;
+}
+
+body.tema-escuro .menu-item.ativo {
+    background-color: #3a2417;
+    color: #ff9d5c;
+}
+
+body.tema-escuro .caixa-promocional {
+    background-color: #2a2e3d;
+}
+
+body.tema-escuro .caixa-promocional p {
+    color: #9ca3af;
+}
+
+body.tema-escuro .card,
+body.tema-escuro .caixa {
+    background-color: #1c1f2b;
+    box-shadow: none;
+    border: 1px solid #2a2e3d;
+}
+
+body.tema-escuro .card-titulo,
+body.tema-escuro .topo p {
+    color: #9ca3af;
+}
+
+body.tema-escuro .topo-icones button {
+    background-color: #1c1f2b;
+    border-color: #2a2e3d;
+}
+
+body.tema-escuro .avatar {
+    background-color: #2a2e3d;
+}
+
+body.tema-escuro #form-transacao input,
+body.tema-escuro #form-transacao select {
+    background-color: #14161f;
+    border-color: #2a2e3d;
+    color: #e5e7eb;
+}
+
+body.tema-escuro .botoes-tipo button {
+    background-color: #14161f;
+    border-color: #2a2e3d;
+    color: #e5e7eb;
+}
+
+body.tema-escuro .lista-categorias li,
+body.tema-escuro .tabela th,
+body.tema-escuro .tabela td {
+    border-bottom-color: #2a2e3d;
+}
+
+body.tema-escuro .tabela th {
+    color: #9ca3af;
+}
+
+body.tema-escuro .mascote {
+    color: #9ca3af;
+}
