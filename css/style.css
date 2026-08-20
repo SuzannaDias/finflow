@@ -412,3 +412,24 @@ body.tema-escuro .tabela th {
 body.tema-escuro .mascote {
     color: #9ca3af;
 }
+
+/* Grupo de tipo da transação */
+.grupo-tipo {
+    border: none;
+    margin: 0;
+    margin-top: 16px;
+    padding: 0;
+}
+
+.grupo-tipo legend {
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+
+/* Gráfico de categorias */
+#grafico-categorias {
+    max-height: 280px;
+    margin-bottom: 16px;
+}

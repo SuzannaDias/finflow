@@ -1,35 +1,23 @@
-// Lista de transações. Começa carregando o que já estava salvo no navegador.
-let transacoes = carregarTransacoes();
+// app.js
 
-// Nomes bonitos pra mostrar cada categoria na tela
-const nomesCategorias = {
-    alimentacao: "Alimentação",
-    transporte: "Transporte",
-    lazer: "Lazer",
-    casa: "Casa",
-    trabalho: "Trabalho",
-    outros: "Outros"
-};
+// Este é o "maestro": liga os cliques e o envio do formulário aos outros módulos
+
+// storage.js cuida do localStorage, transactions.js da lógica, ui.js do desenho na tela
 
 // Guarda se o usuário escolheu "Receita" ou "Despesa" no formulário
 let tipoSelecionado = "income";
+
+// Guarda o id da transação que está sendo editada.
+// Enquanto for null, o formulário está no modo "criar nova transação".
+let idEmEdicao = null;
 
 // Elementos do HTML
 const form = document.getElementById("form-transacao");
 const inputDescricao = document.getElementById("descricao");
 const inputValor = document.getElementById("valor");
 const selectCategoria = document.getElementById("categoria");
-
 const btnReceita = document.getElementById("btn-receita");
 const btnDespesa = document.getElementById("btn-despesa");
-
-const saldoEl = document.getElementById("saldo");
-const receitasEl = document.getElementById("receitas");
-const despesasEl = document.getElementById("despesas");
-
-const corpoTabela = document.getElementById("lista-transacoes");
-const listaCategoriasEl = document.getElementById("lista-categorias");
-
 const themeToggle = document.getElementById("theme-toggle");
 
 // Alterna entre "Receita" e "Despesa" no formulário
@@ -45,7 +33,7 @@ btnDespesa.addEventListener("click", function () {
     btnReceita.classList.remove("ativo");
 });
 
-// Quando o formulário é enviado
+// Quando o formulário é enviado (serve tanto pra criar quanto pra editar)
 form.addEventListener("submit", function (evento) {
     evento.preventDefault(); // impede a página de recarregar
 
@@ -53,7 +41,7 @@ form.addEventListener("submit", function (evento) {
     const valor = converterParaNumero(inputValor.value);
     const categoria = selectCategoria.value;
 
-    // validação simples
+    // Validação simples
     if (descricao === "") {
         alert("Digite uma descrição para a transação.");
         return;
@@ -69,151 +57,60 @@ form.addEventListener("submit", function (evento) {
         return;
     }
 
-    // cria o objeto da transação
-    const novaTransacao = {
-        id: Date.now(), // um número único, baseado no horário atual
-        descricao: descricao,
-        valor: valor,
-        categoria: categoria,
-        tipo: tipoSelecionado,
-        data: new Date().toLocaleDateString("pt-BR")
-    };
+    if (idEmEdicao === null) {
+        // Modo criar: não tem id em edição, então é transação nova
+        adicionarTransacao(descricao, valor, categoria, tipoSelecionado);
+    } else {
+        // Modo editar: já existe um id guardado, então atualiza aquela transação
+        editarTransacao(idEmEdicao, {
+            descricao: descricao,
+            valor: valor,
+            categoria: categoria,
+            tipo: tipoSelecionado
+        });
 
-    transacoes.push(novaTransacao);
-    salvarTransacoes();
+        sairDoModoEdicao();
+    }
 
     atualizarTela();
     form.reset();
-    // depois do reset, volta o botão "Receita" como padrão
+
+    // Depois do reset, volta o botão "Receita" como padrão
     btnReceita.click();
 });
 
-// Exclui uma transação
-function excluirTransacao(id) {
-    transacoes = transacoes.filter(function (transacao) {
-        return transacao.id !== id;
-    });
-    salvarTransacoes();
-    atualizarTela();
-}
-
-// Atualiza tudo na tela de uma vez
-function atualizarTela() {
-    atualizarCards();
-    atualizarTabela();
-    atualizarResumoCategorias();
-}
-
-// Atualiza os 3 cards do topo (Saldo, Receitas, Despesas)
-function atualizarCards() {
-    let totalReceitas = 0;
-    let totalDespesas = 0;
-
-    transacoes.forEach(function (transacao) {
-        if (transacao.tipo === "income") {
-            totalReceitas += transacao.valor;
-        } else {
-            totalDespesas += transacao.valor;
-        }
+// Preenche o formulário com os dados de uma transação existente,
+// pra pessoa poder editar em vez de digitar tudo de novo do zero
+function abrirEdicao(id) {
+    const transacao = transacoes.find(function (t) {
+        return t.id === id;
     });
 
-    const saldo = totalReceitas - totalDespesas;
-
-    saldoEl.textContent = formatarMoeda(saldo);
-    receitasEl.textContent = formatarMoeda(totalReceitas);
-    despesasEl.textContent = formatarMoeda(totalDespesas);
-}
-
-// Redesenha a tabela de histórico
-function atualizarTabela() {
-    // se não tem nenhuma transação, mostra a mensagem padrão
-    if (transacoes.length === 0) {
-        corpoTabela.innerHTML = '<tr><td colspan="6" class="vazio">Nenhuma transação cadastrada.</td></tr>';
+    if (!transacao) {
         return;
     }
 
-    // limpa a tabela antes de redesenhar
-    corpoTabela.innerHTML = "";
+    idEmEdicao = id;
+    inputDescricao.value = transacao.descricao;
+    inputValor.value = transacao.valor;
+    selectCategoria.value = transacao.categoria;
 
-    // mostra as mais recentes primeiro
-    const transacoesOrdenadas = [...transacoes].reverse();
-
-    transacoesOrdenadas.forEach(function (transacao) {
-        const linha = document.createElement("tr");
-
-        const sinal = transacao.tipo === "income" ? "+" : "-";
-        const corValor = transacao.tipo === "income" ? "receita" : "despesa";
-        const textoTipo = transacao.tipo === "income" ? "↑ Receita" : "↓ Despesa";
-
-        linha.innerHTML = `
-            <td>${transacao.descricao}</td>
-            <td>${nomesCategorias[transacao.categoria]}</td>
-            <td>${textoTipo}</td>
-            <td class="card-valor ${corValor}" style="font-size:14px">${sinal} ${formatarMoeda(transacao.valor)}</td>
-            <td>${transacao.data}</td>
-            <td><button class="botao-excluir" data-id="${transacao.id}">🗑️</button></td>
-        `;
-
-        corpoTabela.appendChild(linha);
-    });
-
-    // adiciona o clique de excluir em cada botão de lixeira recém-criado
-    document.querySelectorAll(".botao-excluir").forEach(function (botao) {
-        botao.addEventListener("click", function () {
-            const id = Number(botao.getAttribute("data-id"));
-            excluirTransacao(id);
-        });
-    });
-}
-
-// Soma as despesas por categoria e atualiza a lista "Resumo dos gastos"
-function atualizarResumoCategorias() {
-    // zera os totais
-    const totalPorCategoria = {
-        alimentacao: 0,
-        transporte: 0,
-        lazer: 0,
-        casa: 0,
-        outros: 0
-    };
-
-    transacoes.forEach(function (transacao) {
-        // o resumo mostra só despesas (igual ao gráfico do mockup)
-        if (transacao.tipo === "expense" && totalPorCategoria.hasOwnProperty(transacao.categoria)) {
-            totalPorCategoria[transacao.categoria] += transacao.valor;
-        }
-    });
-
-    // pega cada <li> da lista e atualiza o valor (<b>) dentro dele
-    const itens = listaCategoriasEl.querySelectorAll("li");
-    const categoriasNaOrdem = ["alimentacao", "transporte", "lazer", "casa", "outros"];
-
-    itens.forEach(function (item, indice) {
-        const categoria = categoriasNaOrdem[indice];
-        const valorEl = item.querySelector("b");
-        valorEl.textContent = formatarMoeda(totalPorCategoria[categoria]);
-    });
-}
-
-// Salva as transações no localStorage.
-// O localStorage só guarda texto, por isso usamos JSON.stringify()
-// pra transformar o array de objetos em texto antes de salvar.
-function salvarTransacoes() {
-    const textoJSON = JSON.stringify(transacoes);
-    localStorage.setItem("finflow-transacoes", textoJSON);
-}
-
-// Carrega as transações do localStorage.
-// Pega o texto salvo e usa JSON.parse() pra transformar de volta em array.
-function carregarTransacoes() {
-    const textoSalvo = localStorage.getItem("finflow-transacoes");
-
-    // se nunca salvou nada antes, textoSalvo vai ser "null" — aí começamos vazio
-    if (!textoSalvo) {
-        return [];
+    if (transacao.tipo === "income") {
+        btnReceita.click();
+    } else {
+        btnDespesa.click();
     }
 
-    return JSON.parse(textoSalvo);
+    document.getElementById("botao-submit").textContent = "Salvar edição";
+
+    // Leva a pessoa até o formulário, caso ela esteja olhando outra parte da tela
+    form.scrollIntoView({ behavior: "smooth" });
+}
+
+// Volta o formulário pro modo normal (criar nova transação)
+function sairDoModoEdicao() {
+    idEmEdicao = null;
+    document.getElementById("botao-submit").textContent = "Adicionar transação";
 }
 
 // Transforma "R$ 1.234,56" ou "1234,56" em número: 1234.56
@@ -221,18 +118,10 @@ function converterParaNumero(texto) {
     const limpo = texto
         .replace("R$", "")
         .replace(/\s/g, "")
-        .replace(/\./g, "")   // remove pontos de milhar
-        .replace(",", ".");   // troca vírgula decimal por ponto
+        .replace(/\./g, "") // remove pontos de milhar
+        .replace(",", "."); // troca vírgula decimal por ponto
 
     return parseFloat(limpo) || 0;
-}
-
-// Transforma um número em texto no formato "R$ 1.234,56"
-function formatarMoeda(numero) {
-    return numero.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
 }
 
 // Alterna entre tema claro e escuro

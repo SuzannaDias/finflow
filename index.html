@@ -95,22 +95,23 @@
                         <option value="trabalho">Trabalho</option>
                         <option value="outros">Outros</option>
                     </select>
+                    <fieldset class="grupo-tipo">
+                        <legend>Tipo</legend>
+                        <div class="botoes-tipo">
+                            <button type="button" class="tipo-receita ativo" id="btn-receita">↑ Receita</button>
+                            <button type="button" class="tipo-despesa" id="btn-despesa">↓ Despesa</button>
+                        </div>
+                    </fieldset>
 
-                    <label>Tipo</label>
-                    <div class="botoes-tipo">
-                        <button type="button" class="tipo-receita ativo" id="btn-receita">↑ Receita</button>
-                        <button type="button" class="tipo-despesa" id="btn-despesa">↓ Despesa</button>
-                    </div>
-
-                    <button type="submit" class="botao-laranja botao-largo">Adicionar transação</button>
-
+                    <button type="submit" id="botao-submit" class="botao-laranja botao-largo">Adicionar
+                        transação</button>
                 </form>
             </div>
 
             <!-- Resumo dos gastos -->
             <div class="caixa">
                 <h3>Resumo dos gastos</h3>
-
+                <canvas id="grafico-categorias"></canvas>
                 <ul class="lista-categorias" id="lista-categorias">
                     <li><span class="bolinha" style="background:#f97316"></span> Alimentação <b>R$ 0,00</b></li>
                     <li><span class="bolinha" style="background:#3b82f6"></span> Transporte <b>R$ 0,00</b></li>
@@ -152,7 +153,10 @@
         </section>
 
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/transactions.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
 </body>
 
