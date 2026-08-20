@@ -59,8 +59,17 @@ Novas funcionalidades e melhorias serão adicionadas conforme o desenvolvimento 
 
 ## 🖥️ Representação visual
 
-<img width="1862" height="910" alt="FinFlow" src="https://github.com/user-attachments/assets/9f58bddc-0c12-449e-9815-50ea1a5cdc69" />
+### ☀️ Dashboard — modo claro
 
+<img src="./images/finflow-dashboard-claro.png" width="800">
+
+### 🌙 Dashboard — modo escuro
+
+<img src="./images/finflow-dashboard-escuro.png" width="800">
+
+### 💳 Gerenciamento de transações
+
+<img src="./images/finflow-dashboard-transacoes.png" width="800">
 ---
 
 👩‍💻 **Projeto desenvolvido por Suzanna Dias**
