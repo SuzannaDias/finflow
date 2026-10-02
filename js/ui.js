@@ -19,7 +19,8 @@ let graficoCategorias = null;
 
 const corpoTabela = document.getElementById("lista-transacoes");
 const listaCategoriasEl = document.getElementById("lista-categorias");
-
+const filtroTipoEl = document.getElementById("filtro-tipo");
+const filtroCategoriaEl =document.getElementById("filtro-categoria")
 // Atualiza tudo na tela de uma vez
 function atualizarTela() {
     atualizarCards();
@@ -33,7 +34,10 @@ function atualizarGrafico() {
     const totalPorCategoria = calcularTotalPorCategoria();
 
     const dados = {
-        labels: ["Alimentação", "Transporte", "Lazer", "Casa", "Outros"],
+        // Gera os nomes a partir de nomesCategorias, pra não duplicar os textos aqui
+        labels: ["alimentacao", "transporte", "lazer", "casa", "outros"].map(
+            function (chave) { return nomesCategorias[chave]; }
+        ),
         datasets: [{
             data: [
                 totalPorCategoria.alimentacao,
@@ -94,8 +98,20 @@ function atualizarTabela() {
 
     corpoTabela.innerHTML = "";
 
-    const transacoesOrdenadas = [...transacoes].reverse();
-
+    let transacoesFiltradas = transacoes;
+    if(filtroTipoEl.value !== "all"){
+        console.log("Tem filtro:", filtroTipoEl.value);
+    
+        transacoesFiltradas= transacoes.filter(function(transacao){
+        return transacao.tipo === filtroTipoEl.value;
+    });
+    }
+    if(filtroCategoriaEl.value !== "all"){
+        transacoesFiltradas = transacoesFiltradas.filter(function (transacao){
+            return transacao.categoria === filtroCategoriaEl.value;
+        });
+    }
+const transacoesOrdenadas = [...transacoesFiltradas].reverse();
     transacoesOrdenadas.forEach(function (transacao) {
         const linha = document.createElement("tr");
 
@@ -107,8 +123,7 @@ function atualizarTabela() {
             <td>${transacao.descricao}</td>
             <td>${nomesCategorias[transacao.categoria]}</td>
             <td>${textoTipo}</td>
-            <td class="card-valor ${corValor}" style="font-size:14px">${sinal} ${formatarMoeda(transacao.valor)}</td>
-            <td>${transacao.data}</td>
+<td class="valor-tabela ${corValor}">${sinal} ${formatarMoeda(transacao.valor)}</td>            <td>${transacao.data}</td>
             <td>
                 <button class="botao-editar" data-id="${transacao.id}">✏️</button>
                 <button class="botao-excluir" data-id="${transacao.id}">🗑️</button>
@@ -135,6 +150,12 @@ function atualizarTabela() {
         });
     });
 }
+filtroTipoEl.addEventListener("change", function(){
+    atualizarTabela();
+});
+filtroCategoriaEl.addEventListener("change", function(){
+    atualizarTabela();
+});
 
 // Soma as despesas por categoria e atualiza a lista "Resumo dos gastos"
 function atualizarResumoCategorias() {

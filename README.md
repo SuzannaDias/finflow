@@ -10,6 +10,10 @@ Dashboard financeiro desenvolvido em **HTML, CSS e JavaScript** durante meus est
 * Cálculo automático de saldo, receitas e despesas
 * Resumo dos gastos agrupado por categoria
 * Histórico de transações
+* Filtro de transações por tipo (receitas e despesas)
+* Filtro de transações por categoria
+* Combinação de filtros para facilitar a busca
+* Gráfico de gastos por categoria
 * Dados armazenados no navegador com `localStorage`
 * Persistência dos dados mesmo após recarregar a página
 * Modo claro/escuro

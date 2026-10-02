@@ -127,6 +127,27 @@
         <section class="caixa">
             <h3>Histórico de transações</h3>
 
+            <div class="filtro">
+                <label for="filtro-tipo">Tipo:</label>
+                <select id="filtro-tipo">
+                    <option value="all">Todos</option>
+                    <option value="income">Receita</option>
+                    <option value="expense">Despesas</option>
+                </select>
+            </div>
+            <div class="filtro">
+                <label for="filtro-categoria">Categoria</label>
+                <select id="filtro-categoria">
+                    <option value="all">Todas</option>
+                    <option value="alimentacao">Alimentação</option>
+                    <option value="transporte">Transporte</option>
+                    <option value="lazer">Lazer</option>
+                    <option value="casa">Casa</option>
+                    <option value="trabalho">Trabalho</option>
+                    <option value="outros">Outros</option>
+                </select>
+            </div>
+
             <table class="tabela">
                 <thead>
                     <tr>
