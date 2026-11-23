@@ -1,34 +1,33 @@
-# 🐷 FinFlow
+🐷 FinFlow
 
-Dashboard financeiro desenvolvido em **HTML, CSS e JavaScript** durante meus estudos, com foco no controle de receitas e despesas, organização das transações e visualização do resumo financeiro.
+Dashboard financeiro para controle de receitas e despesas, desenvolvido durante meus estudos. A versão 1 é um front-end em HTML, CSS e JavaScript puro. A versão 2 adiciona uma API REST em Java (Spring Boot) com banco de dados MySQL.
 
-## ✨ Funcionalidades
+✨ Funcionalidades
+Front-end (v1 — concluída)
+Cadastro, edição e exclusão de transações (descrição, valor, categoria e tipo)
+Cálculo automático de saldo, receitas e despesas
+Resumo dos gastos agrupado por categoria
+Gráfico de gastos por categoria
+Histórico de transações
+Filtros por tipo (receitas e despesas) e por categoria, combináveis
+Dados salvos no navegador com localStorage
+Modo claro/escuro
+Interface responsiva
 
-* Cadastro de transações com descrição, valor, categoria e tipo
-* Edição de transações
-* Exclusão de transações
-* Cálculo automático de saldo, receitas e despesas
-* Resumo dos gastos agrupado por categoria
-* Histórico de transações
-* Filtro de transações por tipo (receitas e despesas)
-* Filtro de transações por categoria
-* Combinação de filtros para facilitar a busca
-* Gráfico de gastos por categoria
-* Dados armazenados no navegador com `localStorage`
-* Persistência dos dados mesmo após recarregar a página
-* Modo claro/escuro
-* Interface responsiva para diferentes tamanhos de tela
+Back-end (v2 — em desenvolvimento)
+API REST com CRUD completo de transações (/transactions)
+Filtros por tipo e por categoria via parâmetros na URL
+Validações dos dados de entrada (campos obrigatórios e valor positivo)
+Persistência em MySQL com Spring Data JPA / Hibernate
+Arquitetura em camadas: controller, service, repository e model
 
-## 🛠️ Tecnologias
+🛠️ Tecnologias
 
-* HTML5
-* CSS3
-* JavaScript (puro, sem frameworks)
-* LocalStorage
+Front-end: HTML5, CSS3, JavaScript (puro, sem frameworks), LocalStorage
 
-## 📂 Estrutura do projeto
+Back-end: Java 25, Spring Boot 4, Spring Web, Spring Data JPA, Bean Validation, MySQL, Maven
 
-```text
+📂 Estrutura do projeto
 FinFlow/
 ├── css/
 │   ├── responsive.css
@@ -39,27 +38,68 @@ FinFlow/
 │   ├── storage.js
 │   ├── transactions.js
 │   └── ui.js
-└── index.html
-```
+├── images/
+├── index.html
+└── finflow-api/finflow-api/        ← API em Java
+    ├── pom.xml
+    └── src/main/java/com/suzannadias/finflow/
+        ├── controller/             # endpoints REST
+        ├── service/                # regras de negócio
+        ├── repository/             # acesso ao banco
+        └── model/                  # entidades (Transaction, TransactionType)
+🔌 Endpoints da API
+Método	Rota	Descrição
+GET	/transactions	Lista transações (filtros opcionais type, category)
+GET	/transactions/{id}	Busca uma transação pelo id
+POST	/transactions	Cria uma transação
+PUT	/transactions/{id}	Atualiza uma transação
+DELETE	/transactions/{id}	Remove uma transação
 
-## 💾 Armazenamento
+Exemplo de corpo para criar uma transação:
 
-O FinFlow utiliza o **LocalStorage** do navegador para armazenar as transações. Dessa forma, os dados permanecem disponíveis mesmo quando a página é recarregada.
+json
+{
+  "description": "Mercado",
+  "amount": 150.50,
+  "category": "Alimentação",
+  "type": "EXPENSE",
+  "date": "2026-11-23"
+}
 
-## ▶️ Como executar o projeto
+Valores aceitos em type: INCOME (receita) e EXPENSE (despesa).
 
-1. Baixe ou clone este repositório.
-2. Abra a pasta do projeto no VS Code.
-3. Abra o arquivo `index.html` no navegador.
-4. Também é possível utilizar a extensão **Live Server** no VS Code.
+▶️ Como executar
+Front-end (v1)
+Clone este repositório.
+Abra a pasta no VS Code.
+Abra o index.html no navegador ou use a extensão Live Server.
+Back-end (v2)
 
-## 🚧 Status
+Pré-requisitos: JDK 21 ou superior e MySQL instalado.
 
-**Em desenvolvimento.**
+Entre na pasta da API:
+cd finflow-api/finflow-api
+Crie o arquivo src/main/resources/application-local.properties com os dados do seu MySQL (esse arquivo não vai para o Git):
+properties
+spring.datasource.url=jdbc:mysql://localhost:3306/finflow?createDatabaseIfNotExist=true
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+Rode a aplicação:
+./mvnw spring-boot:run
 
-O FinFlow é um projeto de estudo e portfólio que estou desenvolvendo gradualmente para praticar **HTML, CSS, JavaScript, manipulação do DOM, organização de código e armazenamento de dados no navegador**.
+No Windows: mvnw.cmd spring-boot:run 4. Acesse http://localhost:8080/transactions. A tabela é criada automaticamente na primeira execução.
 
-Novas funcionalidades e melhorias serão adicionadas conforme o desenvolvimento do projeto avança.
+🚧 Status e próximos passos
+
+[x] Front-end completo com localStorage (v1)
+[x] API REST com CRUD, filtros e validações
+[x] Integração com MySQL
+[ ] Tratamento de erros padronizado (404, mensagens de validação)
+[ ] Endpoint de resumo financeiro (saldo, receitas, despesas e total por categoria)
+[ ] Integrar o front-end à API (trocar localStorage por chamadas fetch)
+[ ] Testes automatizados com JUnit
+[ ] Autenticação de usuários
+[ ] Deploy online
 
 ## 🖥️ Representação visual
 
