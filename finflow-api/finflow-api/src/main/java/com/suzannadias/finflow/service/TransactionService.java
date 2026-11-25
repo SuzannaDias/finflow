@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.suzannadias.finflow.exception.TransactionNotFoundException;
 import com.suzannadias.finflow.model.Transaction;
 import com.suzannadias.finflow.model.TransactionType;
 import com.suzannadias.finflow.repository.TransactionRepository;
@@ -32,9 +33,8 @@ public class TransactionService {
 
     public Transaction findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+        		.orElseThrow(() -> new TransactionNotFoundException(id));
     }
-
     public Transaction create(Transaction transaction) {
         return repository.save(transaction);
     }
